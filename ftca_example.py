@@ -7,6 +7,13 @@ from ftca import FTCA
 
 def get_yahoo_finance_data(assets_list, start,
                            end=datetime.now().strftime('%Y-%m-%d')):
+    """
+    Get adjusted close daily prices from Yahoo Finance site
+    :param assets_list: List of assets to get data of
+    :param start: From date
+    :param end: To date
+    :return: Pandas dataframe containing assets prices
+    """
 
     prices = {}
     for asset in assets_list:
