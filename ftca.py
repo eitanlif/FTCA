@@ -25,11 +25,22 @@ class FTCA():
 
     @staticmethod
     def remove_asset_from_corr_matrix(mat, assets):
+        """
+        Update correlation matrix to not include the assets selected for the
+        new cluster
+        :param mat: Correlation matrix to update
+        :param assets: Assets names to remove
+        :return: Updated correlation matrix
+        """
         mat.drop(assets, axis=1, inplace=True)  # Drop row
         mat.drop(assets, axis=0, inplace=True)  # Drop column
         return mat
 
     def add_new_cluster(self):
+        """
+        Add new cluster. Effectively, adding new key to dictionary.
+        :return:
+        """
         if not self.clusters:
             self.clusters[1] = None
         else:
@@ -38,6 +49,13 @@ class FTCA():
             print 'Created new cluster number %d' % len(self.clusters)
 
     def set_new_cluster(self, curr_assets_to_add, curr_corr_matrix):
+        """
+        Initializing a new cluster with it's assets and updating correlation
+         matrix
+        :param curr_assets_to_add: List of assets names to add
+        :param curr_corr_matrix: Current correlation matrix
+        :return: Updated correlation matrix
+        """
         self.add_new_cluster()
         self.clusters[max(self.clusters)] = curr_assets_to_add
         curr_corr_matrix = self.remove_asset_from_corr_matrix(
@@ -45,6 +63,11 @@ class FTCA():
         return curr_corr_matrix
 
     def apply_ftca(self, assets_prices):
+        """
+        Apply FTCA algorithm
+        :param assets_prices: Pandas dataframe containing the Assets prices
+        :return:
+        """
         self.assets_prices = assets_prices
         self.corr_matrix_orig = self.calc_corr_matrix()
         corr_matrix = deepcopy(self.corr_matrix_orig)
